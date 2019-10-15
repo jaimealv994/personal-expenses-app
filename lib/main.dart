@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:persona_expenses_app/models/transaction.dart';
+import 'package:persona_expenses_app/widgets/chart.dart';
 import 'package:persona_expenses_app/widgets/new_transaction.dart';
 import 'package:persona_expenses_app/widgets/transaction_list.dart';
 
@@ -43,15 +44,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [
-   /* Transaction(
-        id: "t1", title: "New Shoes", amount: 69.99, date: DateTime.now()),
-    Transaction(
-        id: "t1",
-        title: "Weekly Groceries",
-        amount: 16.53,
-        date: DateTime.now())*/
-  ];
+  final List<Transaction> _userTransactions = [];
+
+  List<Transaction> get _recentTransactions {
+    var dateLimit = DateTime.now().subtract(Duration(days: 7));
+
+    return _userTransactions
+        .where((transaction) => transaction.date.isAfter(dateLimit))
+        .toList();
+  }
 
   void _addNewTransaction(String title, double amount) {
     final newTx = new Transaction(
@@ -93,10 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Card(
-            color: Colors.blue,
-            child: Text('CHART!'),
-          ),
+          Chart(_recentTransactions),
           TransactionList(_userTransactions)
         ],
       ),

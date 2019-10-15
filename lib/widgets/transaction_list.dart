@@ -34,7 +34,18 @@ class TransactionList extends StatelessWidget {
               itemCount: transactions.length,
               itemBuilder: (ctx, index) {
                 final tx = transactions[index];
-                return Card(
+                return ListTile(
+                  leading: CircleAvatar(
+                    radius: 30,
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: FittedBox(
+                          child: Text("\$${tx.amount.toStringAsFixed(2)}")),
+                    ),
+                  ),
+                );
+
+                /*Card(
                   child: Row(
                     children: <Widget>[
                       Container(
@@ -69,7 +80,7 @@ class TransactionList extends StatelessWidget {
                       )
                     ],
                   ),
-                );
+                );*/
               }),
     );
   }
